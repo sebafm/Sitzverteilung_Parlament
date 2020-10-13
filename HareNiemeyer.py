@@ -4,46 +4,48 @@ def truncate(n, decimals=0):
     return int(n * multiplier) / multiplier
 
 
-class Landtag:
-    def __init__(self, gesamtzahl_stimmen, anzahl_sitze=110):
-        self.gesamtzahl_stimmen = gesamtzahl_stimmen
-        self.anzahl_sitze = anzahl_sitze
-
-    def hare_niemeyer_vor_nachkomma(self, partei):
-        return truncate(partei.stimmzahl * self.anzahl_sitze / self.gesamtzahl_stimmen)
-    
-
-class Partei:
-    def __init__(self, name, stimmzahl, direktmandate=0, ueberhangmandate=0):
-        self.name = name
-        self.stimmzahl = stimmzahl
-        self.direktmandate = direktmandate
-        self.ueberhangmandate = ueberhangmandate
-
 class ParlamentsParteien:
-    parteien = list()
-
-    def __init__(self, parteien):
+    def __init__(self, parteien=None):
         self.parteien = parteien
 
     def add_parlamentsPartei(partei, landtag):
         if partei.stimmzahl / landtag.anzahl_sitze >= 0.05:
-            self.parteien.append(partei)
+            self.parteien["partei.name"] = partei
 
     def get_parlamentsParteien():
         return self.parteien
 
-
-class SitzRechner:
-    def __init__(self, partei=Partei, landtag=Landtag):
-        self.partei = partei
-        self.landtag = landtag
+class Landtag:
+    def __init__(self, gesamtzahl_stimmen, parlamentsparteien=ParlamentsParteien, anzahl_sitze=110):
+        self.parlamentsparteien = parlamentsparteien
+        self.gesamtzahl_stimmen = gesamtzahl_stimmen
+        self.anzahl_sitze = anzahl_sitze
     
-    def belegte_sitze_nach_vollen_zahlen(partei):
-        return truncate(partei.stimmzahl * self.landtag.anzahl_sitze / self.landtag.gesamtzahl_stimmen)
+    def sitzanteil(self, partei):
+        return partei.stimmzahl * self.anzahl_sitze / self.gesamtzahl_stimmen
+    
+    def belegte_sitze_nach_vollen_zahlen(self, partei):
+        return truncate(self.sitzanteil(partei))
 
-    def zusatzsitz_nachkommastellen():
+    def nachkommastellen(self, partei):
+        return self.sitzanteil(partei) - self.belegte_sitze_nach_vollen_zahlen(partei)
+    
+    def sitze_verbleibend_fuer_nachkommastellen():
         pass
+
+    def zuordnung_sitze_nachkommastellen():
+        pass
+
+
+class Partei:
+    def __init__(self, name, stimmzahl, direktmandate=0, ueberhangmandate=0, sitze_volle_zahl=0, nachkommastellen = 0.0):
+        self.name = name
+        self.stimmzahl = stimmzahl
+        self.direktmandate = direktmandate
+        self.ueberhangmandate = ueberhangmandate
+        self.sitze_volle_zahl = sitze_volle_zahl
+        self.nachkommastellen = nachkommastellen
+
 
 
 gesamtstimmenpool = {
@@ -53,16 +55,16 @@ gesamtstimmenpool = {
     "LINKE": 181332,
     "FDP": 215946,
     "AfD": 378692,
-    "GrauePanther": 59553,
-    "OekoeLinx": 29338
 }
 
 parlamentsParteien = []
 for k,v in gesamtstimmenpool.items():
     parlamentsParteien.append(Partei(k, v))
 
-cdu = Partei("CDU", 776.910, 40)
-landtag = Landtag(2693838)
-sitzRechner = SitzRechner(cdu, landtag)
-sitzRechner.belegte_sitze_nach_vollen_zahlen(cdu)
-print(sitzRechner)
+# cdu = Partei("CDU", 776910, 40)
+# landtag = Landtag(2693838)
+# sitzRechner = SitzRechner(landtag)
+# for i in range(len(parlamentsParteien)):
+#     print(sitzRechner.belegte_sitze_nach_vollen_zahlen(parlamentsParteien[i]))
+# for i in range(len(parlamentsParteien)):
+#     print(sitzRechner.nachkommastellen(parlamentsParteien[i]))
