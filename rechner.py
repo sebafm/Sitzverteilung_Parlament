@@ -30,6 +30,9 @@ def main():
     neuParlament.berechne_sitze_volle_zahl()
     neuParlament.sitzverteilung_anhand_nachkommastellen()
     neuParlament.berechne_ueberhangmandate()
+
+    print("Anzahl \"Vorkomma\"-Sitze: {}\tAnzahl anhand der Nachkommastellen zu verteilende Sitze: {}".format(neuParlament.berechne_sitze_volle_zahl(),\
+         neuParlament.sitzverteilung_anhand_nachkommastellen()))
     for k, v in neuParlament.parteien.items():
         print(v)
 

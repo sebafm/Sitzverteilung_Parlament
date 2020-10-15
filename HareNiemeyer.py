@@ -31,9 +31,14 @@ class Parlament:
             self.parteien[p.name].quote = p.stimmzahl * self.anzahl_sitze / self.gesamtzahl_stimmen #Quote berechnen
             
     def berechne_sitze_volle_zahl(self):
+        """Verteilt die Parlamentssitze anhand der jeweils erzielten ganzen Prozentzahlen (die "Vorkommazahlen") und 
+        gibt die Summe der so verteilten Sitze zurück."""
+        x = 0
         for name, partei in self.parteien.items():
             a = int(partei.stimmzahl * self.anzahl_sitze / self.gesamtzahl_stimmen) #Quote berechnen
             self.parteien[partei.name].sitze_volle_zahl = truncate(a) #Anzahl Sitze anhand der vollen Quotenzahl vor dem Komma berechnen
+            x += a
+        return x
 
     def set_direktmandate(self, parteiname, direktmandate):
         """Setzt das Attribut "direktmandate" einer Partei innerhalb der Dict-Klassenvariablen "Parteien" """
@@ -41,10 +46,10 @@ class Parlament:
     
     def sitzverteilung_anhand_nachkommastellen(self):
         """Prüft, welche Parteien innerhalb des "Parteien"-Dictionarys die höchsten Nachkommastellen haben
-        und setzt das Attrut "sitze_nachkommastellen" einer Partei auf 1, falls diese einen Sitz zugewiesen bekommt.
-        Benötigt als Parameter die Anzahl der Sitze, die es noch zu verteilen gibt."""
-        #Berechne Sitze, die anhand Nachkommastellen zu verteilen sind, anhand der Gesamtzahl sowie der Vorkomma-Sitzanzahl.
+        und setzt das Attribut "sitze_nachkommastellen" einer Partei auf 1, falls diese einen Sitz zugewiesen bekommt.
+        Berechnet hierfür zunächst die Zahl der nach den "Vorkommazahl"-Verteilung verbliebenen Sitze und gibt diese Zahl zurück."""
         
+        #Berechne Sitze, die anhand Nachkommastellen zu verteilen sind, anhand der Gesamtzahl sowie der Vorkomma-Sitzanzahl.
         vergebene_sitze = 0
         for k,v in self.parteien.items():
             vergebene_sitze += int(self.parteien[k].sitze_volle_zahl)
@@ -56,7 +61,7 @@ class Parlament:
         for val, key in b[:sitze_verbleibend_fuer_nachkommastellen]:
             self.parteien[key].sitze_nachkommastellen = 1
             #print(self.parteien[key].name, self.parteien[key].sitze_nachkommastellen)
-
+        return sitze_verbleibend_fuer_nachkommastellen
     
     def berechne_ueberhangmandate(self):
         for k,v in self.parteien.items():
