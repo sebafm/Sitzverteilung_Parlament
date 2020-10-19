@@ -1,39 +1,42 @@
 from HareNiemeyer import *
 
-
 def main():
-    landesstimmen = 2881261        
+    #landesstimmen = 2881261        
+    # gesamtstimmenpool = {
+    #     "CDU": 776910,
+    #     "SPD": 570446,
+    #     "GRUENE": 570512,
+    #     "LINKE": 181332,
+    #     "FDP": 215946,
+    #     "AfD": 378692,
+    #     "Graue_Panther": 25352,
+    #     "Oeko_Linx": 32457
+    # }
+    landesstimmen = 3130781
     gesamtstimmenpool = {
-        "CDU": 776910,
-        "SPD": 570446,
-        "GRUENE": 570512,
-        "LINKE": 181332,
-        "FDP": 215946,
-        "AfD": 378692,
-        "Graue_Panther": 25352,
-        "Oeko_Linx": 32457
+        "CDU": 1199633,
+        "SPD": 961896,
+        "FDP": 157451,
+        "GRÜNE": 348661,
+        "DIE LINKE": 161488,
+        "FREIE WÄHLER": 38433
     }
-
     anzahl_sitze = input("Bitte geben Sie die Anzahl der Sitze für das Parlament an: ")
     try:
         anzahl_sitze = int(anzahl_sitze)
     except:
         print("Nur ganze Zahlen bitte")
 
-    neuParlament = Parlament(anzahl_sitze=anzahl_sitze)
-    neuParlament.bestimme_parlamentsparteien(landesstimmen, gesamtstimmenpool)
-    neuParlament.berechne_gesamtzahl_parlamentsstimmen()
-    neuParlament.berechne_quoten_parteien()
-    neuParlament.set_direktmandate("CDU", 40)
-    neuParlament.set_direktmandate("SPD", 10)
-    neuParlament.set_direktmandate("GRUENE", 5)
-    neuParlament.berechne_sitze_volle_zahl()
-    neuParlament.sitzverteilung_anhand_nachkommastellen()
-    neuParlament.berechne_ueberhangmandate()
+    hlt = Parlament(landesstimmen, anzahl_sitze=anzahl_sitze)
+    hlt.bestimme_parlamentsparteien(gesamtstimmenpool)
+    hlt.set_direktmandate("CDU", 40)
+    hlt.set_direktmandate("SPD", 10)
+    hlt.set_direktmandate("GRÜNE", 5)
+    hlt.berechne_ueberhangmandate()
 
-    print("Anzahl \"Vorkomma\"-Sitze: {}\tAnzahl anhand der Nachkommastellen zu verteilende Sitze: {}".format(neuParlament.berechne_sitze_volle_zahl(),\
-         neuParlament.sitzverteilung_anhand_nachkommastellen()))
-    for k, v in neuParlament.parteien.items():
+    for k, v in hlt.parteien.items():
         print(v)
+    print("5%-Hürde liegt bei {:,} Stimmen.\nAnzahl \"Vorkomma\"-Sitze: {}\tAnzahl anhand der Nachkommastellen zu verteilende Sitze: {}".format(hlt.fuenf_prozent_huerde(), hlt.vergebene_sitze_nach_voller_zahl(),\
+         hlt.zu_verteilende_nachkommasitze()).replace(",", "."))
 
-if __name__ == "__main__": main()
+if __name__ == "__main__": main()                
