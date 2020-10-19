@@ -57,7 +57,7 @@ class Parlament:
         x = 0
         for name, partei in self.parteien.items():
             a = partei.stimmzahl * self.anzahl_sitze / self.gesamtstimmen_parlamentsparteien #Quote berechnen
-            self.parteien[partei.name].sitze_volle_zahl = int(truncate(a)) #Anzahl Sitze anhand der vollen Quotenzahl vor dem Komma berechnen
+            self.parteien[partei.name].sitze_volle_zahl = math.floor(a) #Anzahl Sitze anhand der vollen Quotenzahl vor dem Komma berechnen
             x += a
 
     def __berechne_sitze_anhand_nachkommastellen(self):
@@ -70,7 +70,7 @@ class Parlament:
         sitze_verbleibend_fuer_nachkommastellen = self.anzahl_sitze - vergebene_sitze
         a = list()
         for k,v in self.parteien.items():
-            a.append(((v.quote - truncate(v.quote)), self.parteien[k].name))
+            a.append(((v.quote - math.floor(v.quote)), self.parteien[k].name))
         b = sorted(a, reverse=True)
         for val, key in b[:sitze_verbleibend_fuer_nachkommastellen]:
             self.parteien[key].sitze_nachkommastellen = 1
