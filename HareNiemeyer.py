@@ -12,11 +12,11 @@ class Parlament:
     Gesamtstimmen der Parlamentsparteien die Anzahl der jeweiligen Sitze zu. 
     
     Attribute:
-        anzahl_sitze: int. Gesamtzahl der Sitze in diesem Landtag
-        parteien: dict. Key: Parteiname, Value: Objekt der Klasse Partei
-        landesstimmen: int. Insgesamt bei der Wahl abgegebene Landesstimmen.
+        :anzahl_sitze = int. Gesamtzahl der Sitze in diesem Landtag
+        :parteien = dict. Key: Parteiname, Value: Objekt der Klasse Partei
+        :landesstimmen = int. Insgesamt bei der Wahl abgegebene Landesstimmen.
             Notwendig für die Berechnung der 5%-Hürde.
-        gesamtstimmen_parlamentsparteien: int. Anzahl der Wählerstimmen, die auf 
+        :gesamtstimmen_parlamentsparteien = int. Anzahl der Wählerstimmen, die auf 
             die Landtagsparteien entfallen.
         
     """
@@ -98,7 +98,7 @@ class Parlament:
         innerhalb der Dict-Variablen "Parteien" auf den angegebenen Wert."""
         self.parteien[parteiname].direktmandate = direktmandate
         
-    def berechne_ueberhangmandate(self):
+    def set_ueberhangmandate(self):
         for k,v in self.parteien.items():
             a = int(v.direktmandate - (v.sitze_volle_zahl + v.sitze_nachkommastellen))
             if a > 0:
@@ -132,4 +132,4 @@ class Wahl:
         self.landesstimmen = landesstimmen # Anzahl der abgegebenen Stimmen bei der Wahl
         self.gesamtstimmenpool = gesamtstimmenpool
 
-
+################################################################################################

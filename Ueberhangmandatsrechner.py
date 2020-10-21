@@ -1,7 +1,8 @@
 import math
 
 class Ueberhang:
-    def neue_sitzanzahl(self, parlament=dict()):
+    def ueberhangs_ausgleichmandate(self, parlament=dict()):
+        """ """
         bigcount = 0
         key = ""
         for k,v in parlament.parteien.items():
@@ -9,4 +10,6 @@ class Ueberhang:
                 bigcount = v.direktmandate - v.quote
                 key = k
         ns = bigcount * 100 / parlament.parteien[key].quote
-        return parlament.anzahl_sitze + math.floor(ns)
+        foo = [key, math.floor(ns), math.ceil(ns)]
+#        print(foo)
+        return foo
