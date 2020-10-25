@@ -47,21 +47,46 @@ class Landtag:
         return ges
     
     def berechne_quoten_parteien(self):
+        """Weist jeder Partei in parteien die jeweilige Quote 
+        (=Stimmen / Gesamtstimmen der Landtagsparteien) zu."""
         for p in range(len(self.parteien)):
              self.parteien[p].quote = self.parteien[p].stimmzahl * self.sitze / self.__berechne_gesamtstimmen_parlamentsparteien()
 
     def berechne_sitze_volle_zahl(self):
+        """Weist jeder Partei in parteien die Anzahl Sitze zu, die der vollen Zahl (also ohne Nachkommastellen)
+        ihrer Quote im Landtag entsprechen."""
         for p in range(len(self.parteien)):
             self.parteien[p].sitze_nach_voller_zahl = math.floor(self.parteien[p].quote)
+
+    def berechne_zu_verteilende_nachkommasitze(self):
+        """Berechnet die Anzahl nicht vergebener Sitze, die nach der Sitzzuweisung an 
+        die Parteien anhand der vollen Zahlen ihrer jew. Quote verbleiben.
+        ==> zu_verteilende_nachkommasitze : int"""
+        vergebene_sitze = 0
+        for p in self.parteien:
+            vergebene_sitze += p.sitze_nach_voller_zahl
+        return self.sitze - vergebene_sitze
     
-    def assign_sitze_nachkommastellen(self):
+    def ordne_parteien_by_nachkommastellen(self):
+        """Ordnet die Parteien anhand der Höhe der Nachkommastellen der Quote
+        in absteigender Reihenfolge.
+        ==> liste(nachkommastellen:float, parteiname:str)"""
         lst = []
         for p in range(len(self.parteien)):
             nkstell = self.parteien[p].quote - math.floor(self.parteien[p].quote)
             name = self.parteien[p].name
             lst.append((nkstell, name))
-        
-
+        return sorted(lst, reverse=True)
+    
+    def assign_sitze_nachkommastellen(self):
+        """Verteilt die verbleibenden Sitze (zu_verteilende_nachkommasitze) an die Parteien 
+        in parteien mit den höchsten Nachkommastellen."""
+        index_bis = self.berechne_zu_verteilende_nachkommasitze()
+        parteienliste = self.ordne_parteien_by_nachkommastellen()
+        for p in parteienliste[:index_bis]:
+            for i in range(len(self.parteien)):
+                if p[1] == self.parteien[i].name:
+                    self.parteien[i].sitz_anhand_nachkommastellen = 1
 
 #######################################################################
 
@@ -83,6 +108,8 @@ def main():
     hlt.bestimme_parlamentsparteien(gesamtstimmenpool)
     hlt.berechne_quoten_parteien()
     hlt.berechne_sitze_volle_zahl()
+    hlt.assign_sitze_nachkommastellen()
+    
     for p in hlt.parteien:
         print(p)
 
