@@ -1,8 +1,19 @@
 from Parlament import Landtag
 import pandas as pd
-import myMathFunctions
+from util import myMathFunctions
 
 def main():
+    # """Ergebnisse der Wahl von 2013:"""
+    # landesstimmen = 3130781
+    # gesamtstimmenpool = {
+    #     "CDU": 1199633,
+    #     "SPD": 961896,
+    #     "FDP": 157451,
+    #     "GRÜNE": 348661,
+    #     "DIE LINKE": 161488,
+    #     "FREIE WÄHLER": 38433
+    # }
+
     #"""Ergebnisse der Wahl von 2018"""
     landesstimmen = 2881261        
     gesamtstimmenpool = [
@@ -13,7 +24,7 @@ def main():
         ("FDP", 215946, 0),
         ("AfD", 378692, 0),
         ("Graue_Panther", 25352, 0),
-        ("Oeko_Linx", 32457, 0)
+        ("Öko_Linx", 32457, 0)
     ]
 
     #Berechnung des "Standard"-HLT mit 110 Sitzen
