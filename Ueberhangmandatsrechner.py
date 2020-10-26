@@ -1,7 +1,7 @@
 import math
 
 class Ueberhang:
-    def ueberhangs_ausgleichmandate(self, parlament=dict()):
+    def get_neue_sitzanzahl_nach_hare_niemeyer(self, parlament=dict()):
         """ """
         bigcount = 0
         key = ""
@@ -9,7 +9,6 @@ class Ueberhang:
             if bigcount < v.direktmandate - v.quote:
                 bigcount = v.direktmandate - v.quote
                 key = k
-        ns = bigcount * 100 / parlament.parteien[key].quote
-        foo = [key, math.floor(ns), math.ceil(ns)]
-#        print(foo)
-        return foo
+        neue_sitzanzahl = bigcount * 100 / parlament.parteien[key].quote
+        min_max_sitzanzahl = [key, math.floor(neue_sitzanzahl), math.ceil(neue_sitzanzahl)]
+        return min_max_sitzanzahl
