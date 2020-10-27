@@ -1,6 +1,6 @@
 from Parlament import Landtag
 import pandas as pd
-from util import myMathFunctions
+import myMathFunctions
 
 def main():
     # """Ergebnisse der Wahl von 2013:"""
