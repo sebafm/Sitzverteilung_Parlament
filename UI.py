@@ -43,7 +43,7 @@ class Erfassungsformular:
         self.frame_eckdaten_wahl.pack()
         ttk.Label(self.frame_eckdaten_wahl, text = 'Abgegebene Landesstimmen:').grid(row = 0, column = 0, padx = 5, sticky = 'sw')
         ttk.Label(self.frame_eckdaten_wahl, text = '(5%-Hürde:    )').grid(row = 1, column = 1, padx = 5, sticky = 'sw')
-        self.entry_landesstimmen = ttk.Entry(self.frame_eckdaten_wahl, width = 24).grid(row = 1, column = 0, padx = 5, sticky = 'sw')
+        self.entry_landesstimmen = ttk.Spinbox(self.frame_eckdaten_wahl, width = 24).grid(row = 1, column = 0, padx = 5, sticky = 'sw')
         ttk.Label(self.frame_eckdaten_wahl, text = '').grid(row = 1, column = 2)
 
         # darunter dann die Felder zur Eintragung der Parteien mit ihrem jeweiligen Ergebnis:        
@@ -54,9 +54,9 @@ class Erfassungsformular:
         ttk.Label(self.frame_parteien, text = "Prozent:").grid(row = 0, column = 2, padx = 5, sticky = 'sw')
         ttk.Label(self.frame_parteien, text = "Direktmandate:").grid(row = 0, column = 3, padx = 5, sticky = 'sw')
         self.name_partei1 = ttk.Entry(self.frame_parteien, width = 24).grid(row = 1, column = 0, padx = 5, pady = 5)
-        self.stimmen_partei1 = ttk.Entry(self.frame_parteien, width = 24).grid(row = 1, column = 1, padx = 5, pady = 5)
-        self.prozent_partei1 = ttk.Entry(self.frame_parteien, width = 24).grid(row = 1, column = 2, padx = 5, pady = 5)
-        self.direktmandate_partei1 = ttk.Entry(self.frame_parteien, width = 24).grid(row = 1, column = 3, padx = 5, pady = 5)
+        self.stimmen_partei1 = ttk.Spinbox(self.frame_parteien, width = 24).grid(row = 1, column = 1, padx = 5, pady = 5)
+        self.prozent_partei1 = ttk.Spinbox(self.frame_parteien, width = 24).grid(row = 1, column = 2, padx = 5, pady = 5)
+        self.direktmandate_partei1 = ttk.Spinbox(self.frame_parteien, width = 24).grid(row = 1, column = 3, padx = 5, pady = 5)
         
         # self.partei2 = ttk.Entry(self.frame_parteien, width = 24).grid(row = 2, column = 0, padx = 5, pady = 5)
         # self.stimmen_partei2 = ttk.Entry(self.frame_parteien, width = 24).grid(row = 2, column = 1, padx = 5, pady = 5)
