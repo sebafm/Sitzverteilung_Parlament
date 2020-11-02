@@ -48,19 +48,23 @@ class Landtag:
         return ges
     
     def berechne_quoten_parteien(self):
-        """Weist jeder Partei in parteien die jeweilige Quote 
+        """Weist jeder Partei in 'parteien' die jeweilige Quote 
         (=Stimmen / Gesamtstimmen der Landtagsparteien) zu."""
         for p in range(len(self.parteien)):
              self.parteien[p].quote = self.parteien[p].stimmzahl * self.sitze / self.__berechne_gesamtstimmen_parlamentsparteien()
 
     def berechne_sitze_volle_zahl(self):
-        """Weist jeder Partei in parteien die Anzahl Sitze zu, die der vollen Zahl (also ohne Nachkommastellen)
+        """Zuweisung der Sitze an Parteien anhand der jew. Quote.
+        
+        Weist jeder Partei in 'parteien' die Anzahl Sitze zu, die der vollen Zahl (also ohne Nachkommastellen)
         ihrer Quote im Landtag entsprechen."""
         for p in range(len(self.parteien)):
             self.parteien[p].sitze_nach_voller_zahl = math.floor(self.parteien[p].quote)
 
     def berechne_nachkommastellen(self):
-        """Weist jeder Partei in parteien ein Attribut mit dem Wert der Nachkommastellen aus quote zu"""
+        """Nachkommastellen aus dem Attribut 'quote'.
+        
+        Weist jeder Partei in 'parteien' ein Attribut mit dem Wert der Nachkommastellen aus 'quote' zu."""
         for i in range(len(self.parteien)):
             nkstell = self.parteien[i].quote - math.floor(self.parteien[i].quote)
             setattr(self.parteien[i], "nachkommastellen", nkstell)
@@ -76,23 +80,23 @@ class Landtag:
     
     
     def sort_parteien_by_attr(self, attr: str, reverse=True):
-        """Ordnet die Liste 'parteien' anhand des angegebenen Attributes."""
+        """Ordnet die Liste 'parteien' anhand des mit 'attr' angegebenen Attributes."""
         # if not hasattr(self.parteien[0], attr):
         #     return
         self.parteien.sort(key= lambda x: getattr(x, attr, None), reverse=reverse)
         #print(self.parteien)
 
-
     def vergebe_restsitze_anhand_nachkommastellen(self):
-        """Verteilt die verbleibenden Sitze (zu_verteilende_nachkommasitze) an die Parteien 
+        """Unverteilte Restsitze an Parteien mit höchsten Nachkommastellen.
+        
+        Verteilt die verbleibenden Sitze (zu_verteilende_nachkommasitze) an die Parteien 
         in parteien mit den höchsten Nachkommastellen."""
         for i in range(self._get_nicht_verteilte_restsitze()):
             self.parteien[i].sitz_anhand_nachkommastellen = 1
 
-
-    def finde_partei_mit_meisten_ueberhangmandaten(self) -> tuple[str, int, float]:
-        biggest_ueberhang = 0
+    def finde_partei_mit_meisten_ueberhangmandaten(self) -> tuple:
         name = ""
+        biggest_ueberhang = 0
         quote = 0
         for partei in self.parteien:
             ueberhang = partei.direktmandate - partei.quote
@@ -101,7 +105,9 @@ class Landtag:
         return (name, biggest_ueberhang, quote)
 
     def determine_seats_by_ueberhangmandate(self):
-        """Bestimmt die neue Anzahl der Sitze des Landtags, ausgehend von den Ueberhangmandaten
+        """Landtagssitze nach Beruecksichtigung der Ueberhangmandate.
+        
+        Bestimmt die neue Anzahl der Sitze des Landtags, ausgehend von den Ueberhangmandaten
         und den entsprechend den anderen Parteien zustehenden Ausgleichsmandaten."""
         ausschlaggebende_partei = self.finde_partei_mit_meisten_ueberhangmandaten()
         if ausschlaggebende_partei[0] == '':
